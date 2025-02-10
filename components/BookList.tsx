@@ -11,8 +11,11 @@ const BookList = ({title, books, containerClassName}: Props) => {
   return (
     <section className={containerClassName }>
       <h2 className='text-light-100 text-4xl font-bebas-neue'>
-        Popular books
+        {title}
       </h2>
+      <ul className='book-list'>
+        
+      </ul>
     </section>
   )
 }
