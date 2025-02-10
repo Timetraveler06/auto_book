@@ -4,7 +4,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import BookCoverSvg from "@/components/BookCoverSvg";
 
-import config from "@/lib/config";
+
 
 
 type BookCoverVariant = "extraSmall" | "small" | "medium" | "regular" | "wide";
@@ -26,7 +26,7 @@ interface Props {
 
 const BookCover = ({
   className,
-  variant = "regular",
+  variant= "regular",
   coverColor = "#012B48",
   coverImage = "https://placehold.co/400x600.png",
 }: Props) => {
