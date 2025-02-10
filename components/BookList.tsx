@@ -9,7 +9,7 @@ interface Props {
 
 const BookList = ({title, books, containerClassName}: Props) => {
   return (
-    <section>
+    <section className={containerClassName }>
       <h2 className='text-light-100 text-4xl font-bebas-neue'>
         Popular books
       </h2>
