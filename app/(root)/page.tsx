@@ -1,14 +1,14 @@
 import BookList from "@/components/BookList";
-import BookOverview from "@/components/ui/bookOverview";
-import { Button } from "@/components/ui/button";
+import BookOverview from "@/components/BookOverview";
+
 
 
 const Home=()=> (
  
-   <>
+   <div>
       <BookOverview />
       <BookList />
-   </>
+   </div>
   
 );
 
