@@ -5,8 +5,6 @@ import { cn } from "@/lib/utils";
 import BookCoverSvg from "@/components/BookCoverSvg";
 
 
-
-
 type BookCoverVariant = "extraSmall" | "small" | "medium" | "regular" | "wide";
 
 const variantStyles: Record<BookCoverVariant, string> = {
