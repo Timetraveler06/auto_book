@@ -4,6 +4,7 @@ import ImageKit from "imagekit";
 import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { FilePath } from "tailwindcss/types/config";
 
 const {
   env: {
@@ -33,7 +34,7 @@ const authenticator = async()=>{
     }
 
 }
-const ImageUpload = () => {
+const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => void }) => {
 
     const ikUploadRef = useRef(null);
     const [file, setFile] = useState<{ filePath: string} | null >(null);
