@@ -9,7 +9,8 @@ const layout = ({children}:{children: ReactNode}) => {
                     <Image src='/icons/logo.svg' alt='logo' width={37} height={37} />
                     <h2 className='text-2xl font-semibold text-white'>BookWise</h2>
                 </div>
-                
+
+                <div>{children}</div>
             </div>
         </section>
     </main>
