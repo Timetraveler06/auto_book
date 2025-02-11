@@ -3,7 +3,7 @@ import config from "@/lib/config";
 import ImageKit from "imagekit";
 import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
 import { useRef, useState } from "react";
-
+import Image from "next/image";
 
 const {
   env: {
@@ -46,7 +46,10 @@ const ImageUpload = () => {
 
         <IKUpload 
             className="hidden" ref={ikUploadRef} onError={onError} onSuccess={onSuccess} fileName="test-upload.png" />
-            <button className="upload-btn">Hi</button>
+            <button className="upload-btn flex items-center justify-center p-2">
+                <Image src="/icons/upload.svg" alt="upload-icon" width={20} height={20}
+                 className="object-contain  "/>
+            </button>
     </ImageKitProvider>
   )
 
