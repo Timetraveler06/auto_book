@@ -1,8 +1,9 @@
 import ImageKit from "imagekit";
 
+const {env: { imagekit: { publicKey,privateKey,urlEndpoint}}} = config;
 
 const imagekit = new ImageKit({
-    publicKey: config.env.imagekit.publicKey,
-    privateKey: config.env.imagekit.privateKey,
-    urlEndpoint: config.env.imagekit.urlEndpoint,
+    publicKey: publicKey,
+    privateKey: privateKey,
+    urlEndpoint: urlEndpoint,
 });
