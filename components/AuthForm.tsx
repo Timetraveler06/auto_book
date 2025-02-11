@@ -1,10 +1,11 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DefaultValues, FieldValues,  SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
+import { DefaultValues, FieldValues,  Path,  SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { z, ZodType } from "zod";
-
-
-
+import { Input } from "@/components/ui/input"
+import Link from "next/link";
+import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
+import ImageUpload from "./ImageUpload";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -15,9 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import Link from "next/link";
-import { FIELD_NAMES } from "@/constants";
+
+
 
 //Create a Generic Interfce 
  interface Props<T extends FieldValues>{
@@ -27,6 +27,7 @@ import { FIELD_NAMES } from "@/constants";
     type: "SIGN_IN" | "SIGN_UP";
  }
 
+ 
 const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit}: Props<T>) => {
 
     const isSignIn = type == "SIGN_IN";
@@ -63,11 +64,13 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                         <FormItem>
                             <FormLabel className="capitalize">{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
                             <FormControl>
-                            <Input placeholder="shadcn" {...field} />
+                                {field.name == "universityCard" ? (  <ImageUpload /> ) :
+                                  ( <Input required type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]} 
+                                  {...field} 
+                                  className="form-input" /> )}
+                            
                             </FormControl>
-                            <FormDescription>
-                            This is your public display name.
-                            </FormDescription>
+                          
                             <FormMessage />
                         </FormItem>
                         )}
@@ -75,11 +78,13 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 
                 ))}
                 
-                <Button type="submit">Submit</Button>
+                <Button type="submit" className="form-btn">
+                    {isSignIn ? 'Sign-In' : 'Sign Up'}
+                </Button>
             </form>
         </Form>
         <p className="text-center text-base font-medium">
-            {isSignIn ? 'New to BookWise?' : 'Already have an Account?'}
+            {isSignIn ? 'New to BookWise? ' : '  Already have an Account?'}
             <Link href={isSignIn ? '/sign-up' : 'sign-in'} className="font-bold text-primary ">
              {isSignIn ? 'Create an Account? ' : ' Sign in'}
         
