@@ -39,7 +39,9 @@ const ImageUpload = () => {
     const [file, setFile] = useState<{ filePath: string} | null >(null);
 
     const onError = () =>{};
-    const onSuccess  = () =>{};
+    const onSuccess  = (res:any) =>{
+        setFile(res);
+    };
 
   return (
     <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator} >
