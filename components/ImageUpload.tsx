@@ -12,7 +12,7 @@ const {
   },
 } = config;
 
-
+ 
 
 const authenticator = async()=>{
     try {
@@ -42,6 +42,7 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
     const onError = () =>{};
     const onSuccess  = (res:any) =>{
         setFile(res);
+        onFileChange(res.filePath);
     };
 
   return (
