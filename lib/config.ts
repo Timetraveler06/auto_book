@@ -1,4 +1,4 @@
-const config = {
+ const config = {
     
     env: {
         apiEndpoint : process.env.NEXT_PUBLIC_API_ENDPOINT!,
@@ -10,3 +10,4 @@ const config = {
         },
     },
 };
+export default config;
