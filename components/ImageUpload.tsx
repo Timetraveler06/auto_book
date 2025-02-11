@@ -1,7 +1,7 @@
 "use client"
 import ImageKit from "imagekit";
 import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const { env: { imagekit: { publicKey , privateKey, urlEndpoint },},} = config;
 
@@ -35,7 +35,7 @@ const authenticator = async()=>{
 const ImageUpload = () => {
 
     const ikUploadRef = useRef(null);
-   const [file, setFile] = useState(null);
+   const [file, setFile] = useState<{ filePath: string} | null >(null);
 
   return 
   <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator} >
