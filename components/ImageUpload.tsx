@@ -45,7 +45,8 @@ const ImageUpload = () => {
     <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator} >
 
         <IKUpload 
-            className="hidden" ref={ikUploadRef} onError={onError} onSuccess={onSuccess}/>
+            className="hidden" ref={ikUploadRef} onError={onError} onSuccess={onSuccess} fileName="test-upload.png" />
+            <button className="upload-btn">Hi</button>
     </ImageKitProvider>
   )
 
