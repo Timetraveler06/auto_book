@@ -5,6 +5,7 @@ import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { FilePath } from "tailwindcss/types/config";
+import { toast } from "@/hooks/use-toast";
 
 const {
   env: {
@@ -16,7 +17,7 @@ const {
 
 const authenticator = async()=>{
     try {
-        const response = await fetch(`${config.env.apiEndpoint}/api/auth.imagekit`);
+        const response = await fetch(`${config.env.apiEndpoint}/api/auth/imagekit`);
 
         if(!response.ok){
             const errorText = await response.text();
@@ -40,11 +41,20 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
     const [file, setFile] = useState<{ filePath: string} | null >(null);
 
     const onError = ( error:any ) =>{
-        console.log(error)
+        console.log(error);
+        toast({
+            title: ' upload failed',
+            description: ' could not be uploaded. Please try again.',
+            variant: "destructive",
+          });
     };
     const onSuccess  = (res:any) =>{
         setFile(res);
         onFileChange(res.filePath);
+        toast({
+            title: ' uploaded successfully',
+            description: `${res.filePath} uploaded successfully!`,
+          });
     };
 
   return (
@@ -52,10 +62,8 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
 
         <IKUpload 
             className="hidden" ref={ikUploadRef} onError={onError} onSuccess={onSuccess} fileName="test-upload.png" />
-            <button className="upload-btn " onClick={(e)=>{
+            <button className="upload-btn" onClick={(e)=>{
                 e.preventDefault();
-
-
                 if(ikUploadRef.current) {
                     // @ts-ignore
                     ikUploadRef.current?.click();
