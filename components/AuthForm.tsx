@@ -27,7 +27,7 @@ import {
     type: "SIGN_IN" | "SIGN_UP";
  }
 
- 
+
 const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit}: Props<T>) => {
 
     const isSignIn = type == "SIGN_IN";
