@@ -39,7 +39,9 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
     const ikUploadRef = useRef(null);
     const [file, setFile] = useState<{ filePath: string} | null >(null);
 
-    const onError = () =>{};
+    const onError = ( error:any ) =>{
+        console.log(error)
+    };
     const onSuccess  = (res:any) =>{
         setFile(res);
         onFileChange(res.filePath);
