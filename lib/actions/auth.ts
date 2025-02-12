@@ -29,7 +29,7 @@ export const signUp = async( params: AuthCredentials ) =>{
             fullName, email, universityId, password:hashedPassword, universityCard
         });
 
-        //await signInWithCredientials({email,password});
+        await signInWithCredientials({email,password});
 
         return {successs: true};
         
