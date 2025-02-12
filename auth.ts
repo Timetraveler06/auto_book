@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
  import CredentialProvider from 'next-auth/providers/credentials';
- import {compare} from "bcryptjs";
+ import { compare } from "bcryptjs";
 import { db } from "./database/drizzle";
 import { eq } from "drizzle-orm";
 import { users } from "./database/schema";
@@ -24,7 +24,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             if(user.length == 0) return null;
 
-            const isPasswordValid = await compare(credientials.password.toString(),user[0].password)
+            const isPasswordValid = await
+                 compare(credientials.password.toString(),user[0].password);
+
+            if(!isPasswordValid) return null;
         }
     })
   ],
