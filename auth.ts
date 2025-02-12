@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
  import CredentialProvider from 'next-auth/providers/credentials';
 import { db } from "./database/drizzle";
 import { eq } from "drizzle-orm";
+import { users } from "./database/schema";
 export const { handlers, signIn, signOut, auth } = NextAuth({
     session:{
         strategy:"jwt",
@@ -16,7 +17,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const user = await db
                 .select()
                 .from(users)
-                .where(eq("email", credientials.email.toString()))
+                .where(eq(users.email, credientials.email.toString()))
+                .limit(1)
         }
     })
   ],
