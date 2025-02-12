@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, {User} from "next-auth"
  import CredentialProvider from 'next-auth/providers/credentials';
  import { compare } from "bcryptjs";
 import { db } from "./database/drizzle";
@@ -28,6 +28,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                  compare(credientials.password.toString(),user[0].password);
 
             if(!isPasswordValid) return null;
+
+            return {
+                id: user[0].id.toString(),
+                email: user[0].email,
+                name: user[0].fullName
+           } as User
         }
     })
   ],
