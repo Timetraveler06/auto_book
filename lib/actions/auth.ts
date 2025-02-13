@@ -6,13 +6,17 @@ import { hash} from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import ratelimit from "../ratelimit";
+import { redirect } from "next/navigation";
 
  
 
 export const signUp = async( params: AuthCredentials ) =>{
     const { fullName, email, universityId, password, universityCard} = params;
     const ip = ((await headers()).get('x-forwarded-for') || "127.0.0.1");
-    const {} = await ratelimit.limit(ip);
+    const { success } = await ratelimit.limit(ip);
+
+
+    if(!success) return redirect('/too-fast');
     //Check if user exits
     const existingUser  = await db 
         .select()
@@ -45,7 +49,11 @@ export const signUp = async( params: AuthCredentials ) =>{
 export const signInWithCredientials = async ( params: Pick<AuthCredentials , 'email' | 'password'> ) => {
 
     const {email, password} = params;
+    const ip = ((await headers()).get('x-forwarded-for') || "127.0.0.1");
+    const { success } = await ratelimit.limit(ip);
 
+    if(!success) return redirect('/too-fast');
+    
     try {
 
         const result = await signIn('credentials',{
