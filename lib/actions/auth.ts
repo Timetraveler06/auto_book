@@ -4,12 +4,13 @@ import { db } from "@/database/drizzle";
 import { users } from "@/database/schema";
 import { hash} from "bcryptjs";
 import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
 
  
 
 export const signUp = async( params: AuthCredentials ) =>{
     const { fullName, email, universityId, password, universityCard} = params;
-
+    const ip = ((await headers()).get('x-forwarded-for') || "127.0.0.1");
 
     //Check if user exits
     const existingUser  = await db 
