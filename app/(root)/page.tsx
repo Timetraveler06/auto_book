@@ -3,9 +3,6 @@ import BookOverview from "@/components/BookOverview";
 import { sampleBooks } from "@/constants";
 import { db } from "@/database/drizzle";
 import { users } from "@/database/schema";
-
-
-
 const Home= async ()=> {
 
 
