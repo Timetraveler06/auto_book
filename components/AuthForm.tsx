@@ -16,7 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Description } from "@radix-ui/react-toast";
+
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/router";
 
 
 
@@ -32,7 +34,7 @@ import { Description } from "@radix-ui/react-toast";
 const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit}: Props<T>) => {
 
     const isSignIn = type == "SIGN_IN";
-
+    const router = useRouter();
     const form:UseFormReturn<T> = useForm({
         resolver:zodResolver(schema),
         defaultValues: defaultValues as DefaultValues<T>, 
@@ -48,6 +50,7 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                 description: isSignIn ? 'You have Successfuly Signed In':
                              'You have Successfuly Signed Up!'
             });
+            router.push("/");
         }
 
     };
