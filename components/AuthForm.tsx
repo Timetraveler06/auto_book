@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Description } from "@radix-ui/react-toast";
 
 
 
@@ -42,7 +43,11 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
 
         const result = await onSubmit(data);
         if(result.success){
-            
+            toast({
+                title: 'Success',
+                description: isSignIn ? 'You have Successfuly Signed In':
+                             'You have Successfuly Signed Up!'
+            });
         }
 
     };
