@@ -16,7 +16,7 @@ const layout = async ({children}:{children:ReactNode}) => {
 
         <div className='admin-container'>
 
-            <Header />
+            <Header session={session} />
 
             {children}
         </div>
