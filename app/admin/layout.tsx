@@ -1,6 +1,11 @@
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 import React, { ReactNode } from 'react'
 
-const layout = ({children}:{children:ReactNode}) => {
+const layout = async({children}:{children:ReactNode}) => {
+
+    const session = await auth();
+    if(!session?.user?.id )  redirect('/sign-in')
   return (
    <main className='flex min-h-screen w-full flex-row'>
         <p>Sidebar</p>
