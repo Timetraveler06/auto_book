@@ -1,3 +1,4 @@
+import { title } from "process";
 import { z } from "zod";
 
 export const signUpSchema = z.object({
@@ -15,4 +16,12 @@ export const signInSchema = z.object({
     
 });
 
-export const 
+export const bookSchema = z.object({
+    title: z.string().trim().min(2).max(100),
+    author: z.string().trim().min(2).max(100),
+    genre: z.string().trim().min(2).max(50),
+    rating: z.number().min(1).max(5),
+    totalCopies: z.coerce.number().int().positive().lte(10000),
+
+
+})
