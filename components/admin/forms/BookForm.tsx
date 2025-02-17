@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm} from "react-hook-form";
-import { z, ZodType } from "zod";
+import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -73,6 +73,28 @@ const BookForm = ({ type, ...book}: Props) => {
                         </FormItem>
                         )}
                     />  
+                    <FormField
+                        control={form.control}
+                        name={"author"} 
+                        render={({ field }) => ( 
+
+                        <FormItem className="flex flex-col gap-1">
+                            <FormLabel className="text-base font-notmal text-dark-500">
+                              Author
+                            </FormLabel>
+                            <FormControl>
+                               <Input 
+                                    required 
+                                    placeholder="Book Author"
+                                    {...field}
+                                  className="book-form-input" /> 
+                            
+                            </FormControl>
+                          
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    /> 
                 
             </form>
         </Form>
