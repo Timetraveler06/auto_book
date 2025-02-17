@@ -8,6 +8,10 @@ const page = () => {
         <Button asChild className='back-btn'>
             <Link href="/admin/books">Go Back</Link>
         </Button>
+
+        <section className='w-full max-w-2xl'>
+
+        </section>
     </>
   )
 }
