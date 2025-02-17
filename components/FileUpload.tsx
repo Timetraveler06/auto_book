@@ -35,16 +35,38 @@ const authenticator = async()=>{
     }
 
 }
-const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => void }) => {
+
+
+interface Props {
+        type: "image" | "video";
+        accept: string;
+        placeholder: string;
+        folder: string;
+        variant: "dark" | "light";
+        onFileChange: (filePath: string) => void;
+        value?: string;
+      }
+
+const FileUpload = ({  type, accept, placeholder,folder, variant,onFileChange, value,}: Props) => {
 
     const ikUploadRef = useRef(null);
     const [file, setFile] = useState<{ filePath: string} | null >(null);
+    const [progress, setProgress] = useState(0);
+
+    const styles = {
+        button:
+          variant === "dark"
+            ? "bg-dark-300"
+            : "bg-light-600 border-gray-100 border",
+        placeholder: variant === "dark" ? "text-light-100" : "text-slate-500",
+        text: variant === "dark" ? "text-light-100" : "text-dark-400",
+      };
 
     const onError = ( error:any ) =>{
         console.log(error);
         toast({
-            title: ' upload failed',
-            description: ' could not be uploaded. Please try again.',
+            title:  `${type} upload failed`,
+            description: `Your ${type} could not be uploaded. Please try again.`,
             variant: "destructive",
           });
     };
@@ -52,10 +74,35 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
         setFile(res);
         onFileChange(res.filePath);
         toast({
-            title: ' uploaded successfully',
+            title: `${type} uploaded successfully`,
             description: `${res.filePath} uploaded successfully!`,
           });
     };
+
+    const onValidate = (file: File) =>{
+        if(type === 'image'){
+            if(file.size > 20 * 1024 * 1024){
+                toast({
+                    title: "File size too large",
+                    description: "Please upload a file that is less than 20MB in size",
+                    variant: "destructive",
+                  });
+                return false;
+            } 
+            
+        }
+        else if (type === 'video'){
+            if (file.size > 50 * 1024 * 1024) {
+                toast({
+                  title: "File size too large",
+                  description: "Please upload a file that is less than 50MB in size",
+                  variant: "destructive",
+                });
+                return false;
+              }
+        }
+        return true;
+    }
 
   return (
     <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator} >
@@ -89,4 +136,4 @@ const ImageUpload = ({ onFileChange }:{ onFileChange :( filePath: string ) => vo
 
 }
 
-export default ImageUpload
+export default FileUpload
