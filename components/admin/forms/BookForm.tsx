@@ -18,6 +18,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
 import ColorPicker from "../ColorPicker";
+import { createBook } from "@/lib/admin/actions/book";
+import { toast } from "@/hooks/use-toast";
 
 
 //Create a Generic Interfce 
@@ -49,7 +51,25 @@ const BookForm = ({ type, ...book}: Props) => {
         }  
     });
 
-    const onSubmit = async (values: z.infer<typeof bookSchema>) => {}
+    const onSubmit = async (values: z.infer<typeof bookSchema>) => {
+
+        const result = await createBook(values);
+
+        if(result.success){
+            toast({
+                title: 'Success',
+                description: 'Book Succesfully Created'
+                
+            });
+            router.push(`/admin/books/${result.data.id}`)
+        } else {
+            toast({
+                title: 'Error',
+                description: result.message,
+                variant: 'destructive'
+            })
+        }
+    }
   return  (
     
         <Form {...form}>
