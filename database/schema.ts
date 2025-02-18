@@ -1,4 +1,3 @@
-import { float } from "drizzle-orm/mysql-core";
 import { date, integer, pgEnum, pgTable, text, timestamp, uuid, varchar, real} from "drizzle-orm/pg-core";
 
 export const STATUS_ENUM = pgEnum("status", [
