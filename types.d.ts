@@ -26,7 +26,7 @@ interface BookParams {
   title: string;
   author: string;
   genre: string;
-  rating: number;
+  rating: Float32Array;
   coverUrl: string;
   coverColor: string;
   description: string;

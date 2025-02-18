@@ -8,6 +8,13 @@
       "when": 1739350712686,
       "tag": "0000_sudden_texas_twister",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1739878071581,
+      "tag": "0001_spooky_leper_queen",
+      "breakpoints": true
     }
   ]
 }

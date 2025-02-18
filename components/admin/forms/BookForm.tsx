@@ -151,17 +151,18 @@ const BookForm = ({ type, ...book}: Props) => {
                                 Book Rating
                             </FormLabel>
                             <FormControl>
-                               <Input 
-                                    type="number"
+                                <Input
+                                    type="number"  
+                                    step="0.1"     // Allows floating-point values
                                     min={1}
                                     max={5}
-                                    required 
+                                    required
                                     placeholder="Book Rating"
                                     {...field}
-                                  className="book-form-input" /> 
-                            
-                            </FormControl>
-                          
+                                    className="book-form-input"
+                                />
+                                </FormControl>
+
                             <FormMessage />
                         </FormItem>
                         )}
