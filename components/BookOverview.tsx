@@ -11,8 +11,8 @@ interface Book {
   totalCopies: number;
   availableCopies: number;
   description: string;
-  color: string;
-  cover: string;
+  coverColor: string;
+  coverUrl: string;
 }
 
 const BookOverview: React.FC<Book> = ({
