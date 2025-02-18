@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 import { bookSchema } from "@/lib/validations";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import FileUpload from "@/components/FileUpload";
+import ColorPicker from "../ColorPicker";
 
 
 //Create a Generic Interfce 
@@ -179,7 +181,8 @@ const BookForm = ({ type, ...book}: Props) => {
                                 Book Image
                             </FormLabel>
                             <FormControl>
-                               {/* File Uplaod*/}
+                               <FileUpload type="image" accept="image/*" placeholder="Upload a book cover" folder="books/covers"
+                                variant="light" onFileChange={field.onChange} value={field.value}/>
                             </FormControl>
                           
                             <FormMessage />
@@ -197,6 +200,7 @@ const BookForm = ({ type, ...book}: Props) => {
                             </FormLabel>
                             <FormControl>
                               
+                              <ColorPicker onPickerChange={field.onChange} value={field.value} />
                             
                             </FormControl>
                           
@@ -238,7 +242,8 @@ const BookForm = ({ type, ...book}: Props) => {
 
                         <FormItem className="flex flex-col gap-1">
                             <FormLabel className="text-base font-notmal text-dark-500">
-                                Book Trailer
+                                <FileUpload type="video" accept="video/*" placeholder="Upload a book trailer" folder="books/videos"
+                                variant="light" onFileChange={field.onChange} value={field.value}/>
                             </FormLabel>
                             <FormControl>
                                
@@ -274,7 +279,7 @@ const BookForm = ({ type, ...book}: Props) => {
                         )}
                         
                     />
-                <Button type="submit" className="book-form_btn">
+                <Button type="submit" className="book-form_btn text-white ">
                     Add Book to Library
                 </Button>
             </form>

@@ -5,7 +5,7 @@ import { z, ZodType } from "zod";
 import { Input } from "@/components/ui/input"
 import Link from "next/link";
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
-import ImageUpload from "./ImageUpload";
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -19,6 +19,7 @@ import {
 
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import FileUpload from "./FileUpload";
 
 
 
@@ -86,11 +87,25 @@ const AuthForm = <T extends FieldValues>({ type, schema, defaultValues, onSubmit
                         <FormItem>
                             <FormLabel className="capitalize">{FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}</FormLabel>
                             <FormControl>
-                                {field.name == "universityCard" ?
-                                     (  <ImageUpload onFileChange={field.onChange} /> ) :
-                                  ( <Input required type={FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]} 
-                                  {...field} 
-                                  className="form-input" /> )}
+                            {field.name === "universityCard" ? (
+                        <FileUpload
+                        type="image"
+                        accept="image/*"
+                        placeholder="Upload your ID"
+                        folder="ids"
+                        variant="dark"
+                        onFileChange={field.onChange}
+                      />
+                    ) : (
+                      <Input
+                        required
+                        type={
+                          FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
+                        }
+                        {...field}
+                        className="form-input"
+                      />
+                    )}
                             
                             </FormControl>
                           
