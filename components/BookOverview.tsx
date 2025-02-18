@@ -23,8 +23,8 @@ const BookOverview: React.FC<Book> = ({
   totalCopies,
   availableCopies,
   description,
-  color,
-  cover,
+  coverColor,
+  coverUrl,
 }) => {
   return (
     <section className="book-overview flex flex-col lg:flex-row items-center gap-10">
@@ -67,9 +67,9 @@ const BookOverview: React.FC<Book> = ({
       {/* Right Side - Book Cover */}
       <div className="relative flex flex-1 justify-center">
         <div className="relative">
-          <BookCover variant="wide" className="z-10" coverColor={color} coverImage={cover} />
+          <BookCover variant="wide" className="z-10" coverColor={coverColor} coverImage={coverUrl} />
           <div className="absolute left-16 top-10 rotate-12 opacity-40 max-sm:hidden">
-            <BookCover variant="wide" className="z-0 blur-sm" coverColor={color} coverImage={cover} />
+            <BookCover variant="wide" className="z-0 blur-sm" coverColor={coverColor} coverImage={coverUrl} />
           </div>
         </div>
       </div>
