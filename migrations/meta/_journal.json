@@ -15,6 +15,13 @@
       "when": 1739878071581,
       "tag": "0001_spooky_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739903679452,
+      "tag": "0002_melodic_star_brand",
+      "breakpoints": true
     }
   ]
 }
