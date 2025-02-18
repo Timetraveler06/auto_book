@@ -1,45 +1,27 @@
-"use client";
-import { cn, getInitials } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
 import Image from "next/image";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Session } from "next-auth";
+import { signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
 
-const Header = ({ session }: { session: Session }) => {
-  const pathName = usePathname();
-
+const Header = () => {
   return (
-    <header className="my-10 flex justify-between items-center">
-      {/* Logo */}
+    <header className="my-10 flex justify-between gap-5">
       <Link href="/">
         <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
       </Link>
 
-      {/* Navbar */}
-      <ul className="flex items-center gap-8">
+      <ul className="flex flex-row items-center gap-8">
         <li>
-          <Link
-            href="/library"
-            className={cn(
-              "text-base cursor-pointer capitalize",
-              pathName === "/library" ? "text-light-200" : "text-light-100"
-            )}
-          >
-            Library
-          </Link>
-        </li>
+          <form
+            action={async () => {
+              "use server";
 
-        {/* Profile Avatar */}
-        <li>
-          <Link href="/my-profile">
-            <Avatar className="bg-amber-100 w-10 h-10 flex items-center justify-center">
-              <AvatarFallback className="bg-amber-100 font-bold">
-                {getInitials(session?.user?.name || "IN")}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
+              await signOut();
+            }}
+            className="mb-10"
+          >
+            <Button>Logout</Button>
+          </form>
         </li>
       </ul>
     </header>
