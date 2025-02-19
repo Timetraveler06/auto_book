@@ -21,6 +21,9 @@ const Header = () => {
             className="mb-10"
           >
             <Button>Logout</Button>
+            <Button>Logout</Button>
+            <Button>Logout</Button>
+            <Button>Logout</Button>
           </form>
         </li>
       </ul>
