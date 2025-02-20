@@ -2,7 +2,7 @@
 
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
-import { eq } from "drizzle-orm";
+import { eq, ne } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
@@ -48,6 +48,50 @@ export const borrowBook = async (params: BorrowBookParams) => {
     return {
       success: false,
       error: "An error occurred while borrowing the book",
+    };
+  }
+};
+
+export const getSimilarBooks = async (bookId: string) => {
+  try {
+    // Fetch the genre of the current book using bookId
+    const currentBook = await db
+      .select({ genre: books.genre })
+      .from(books)
+      .where(eq(books.id, bookId))
+      .limit(1);
+
+    if (currentBook.length === 0) {
+      return {
+        success: false,
+        error: "Book not found",
+      };
+    }
+
+    const similarBooks = await db
+    .select({
+      id: books.id,
+      title: books.title,
+      genre: books.genre,
+      coverUrl: books.coverUrl, // assuming coverUrl is a field in your schema
+      coverColor: books.coverColor, // assuming coverColor is a field in your schema
+    })
+    .from(books)
+    .where(
+      eq(books.genre, currentBook[0].genre), // Same genre
+      
+    )
+    .limit(5)
+
+    return {
+      success: true,
+      data: similarBooks,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error: "An error occurred while fetching similar books",
     };
   }
 };
