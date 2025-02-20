@@ -41,12 +41,15 @@ const Header = ({
             Search
           </Link>
         </li>
-        <Avatar className="bg-blue-900 w-10 h-10 flex items-center justify-center border-2 border-white rounded-full">
-          <AvatarFallback className="text-white font-bold">
-            {getInitials(session?.user?.name || "IN")}
-          </AvatarFallback>
-        </Avatar>
-        <p className="font-semibold text-white">{session?.user?.name}</p>
+        <div className="flex items-center gap-x-1">
+          <Avatar className="bg-[#acddee] w-10 h-10 flex items-center justify-center border-2 border-white rounded-full">
+            <AvatarFallback className="text-black font-bold">
+              {getInitials(session?.user?.name || "IN")}
+            </AvatarFallback>
+          </Avatar>
+          <p className="font-semibold text-[#d6e0ff]">{session?.user?.name}</p>
+        </div>
+
 
         <li>
           <form
