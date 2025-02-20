@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import BookOverview from "@/components/BookOverview";
 import BookVideo from "@/components/BookVideo";
+//import SimilarBooks from "@/components/SimilarBooks"; // Add this for the Similar Books component
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
@@ -24,16 +25,16 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     <>
       <BookOverview {...bookDetails} userId={session?.user?.id as string} />
 
-      <div className="book-details">
-        <div className="flex-[1.5]">
-          <section className="flex flex-col gap-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* First Column: Video and Summary */}
+        <div className="flex flex-col gap-7">
+          <section>
             <h3>Video</h3>
-
             <BookVideo videoUrl={bookDetails.videoUrl} />
           </section>
-          <section className="mt-10 flex flex-col gap-7">
-            <h3>Summary</h3>
 
+          <section>
+            <h3>Summary</h3>
             <div className="space-y-5 text-xl text-light-100">
               {bookDetails.summary.split("\n").map((line, i) => (
                 <p key={i}>{line}</p>
@@ -42,9 +43,14 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </section>
         </div>
 
-        {/*  SIMILAR*/}
+        {/* Second Column: Similar Books */}
+        <div className="flex flex-col gap-7">
+          <h3>Similar Books</h3>
+        {/* <SimilarBooks bookId={id} /> Pass the current book id to get similar books */}
+        </div>
       </div>
     </>
   );
 };
+
 export default Page;
