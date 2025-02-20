@@ -45,11 +45,12 @@ const SideBar = ({session}:{session:Session}) => {
 
         <div className='user'>
 
-            <Avatar className="bg-amber-100 w-10 h-10 flex items-center justify-center">
-              <AvatarFallback className="bg-amber-100 font-bold">
+        <Avatar className="bg-amber-100 w-10 h-10 flex items-center justify-center border-2 rounded-full">
+            <AvatarFallback className="bg-amber-100 font-bold">
                 {getInitials(session?.user?.name || "IN")}
-              </AvatarFallback>
-            </Avatar>
+            </AvatarFallback>
+        </Avatar>
+
 
             <div className='flex flex-col max-md:hidden'>
                 <p className='font-semibold text-dark-200'> {session?.user?.name}</p>
