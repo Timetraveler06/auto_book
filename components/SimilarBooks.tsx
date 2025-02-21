@@ -10,23 +10,24 @@ const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
   useEffect(() => {
     const fetchSimilarBooks = async () => {
       const response = await getSimilarBooks(currentBookId);
-
-      // Ensure response.data is defined and is an array
-      if (response.success && Array.isArray(response.data)) {
-        setSimilarBooks(response.data); // Update state with similar books
-      } else {
-        console.error(response.error); // Handle error if no similar books found
-        setSimilarBooks([]); // Optionally set an empty array if no books found
+  
+      // Directly set the books, ensuring it's always an array
+      setSimilarBooks(response.success ? response.data ?? [] : []);
+  
+      // Log an error if fetching fails
+      if (!response.success) {
+        console.error(response.error);
       }
     };
-
+  
     fetchSimilarBooks();
   }, [currentBookId]);
+  
 
   return (
     <div>
-      <h2>Similar Books</h2>
-      <div className="similar-books flex flex-wrap gap-4"> {/* Flexbox for row layout */}
+      
+      <div className="similar-books flex flex-wrap gap-8"> {/* Flexbox for row layout */}
         {similarBooks.length > 0 ? (
           similarBooks.map((book: any) => (
             <div key={book.id} className="book-card">
@@ -37,7 +38,7 @@ const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
             </div>
           ))
         ) : (
-          <p>No similar books found</p>
+          <p className="text-[#d6e0ff] font-bold text-2xl md:text-2xl ">No similar books found</p>
         )}
       </div>
     </div>

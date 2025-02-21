@@ -2,7 +2,7 @@
 
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
-import { eq, ne } from "drizzle-orm";
+import { eq,and, ne } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
@@ -68,20 +68,21 @@ export const getSimilarBooks = async (bookId: string) => {
       };
     }
 
+    // Fetch similar books excluding the current book
     const similarBooks = await db
-    .select({
-      id: books.id,
-      title: books.title,
-      genre: books.genre,
-      coverUrl: books.coverUrl, // assuming coverUrl is a field in your schema
-      coverColor: books.coverColor, // assuming coverColor is a field in your schema
-    })
-    .from(books)
-    .where(
-      eq(books.genre, currentBook[0].genre), // Same genre
-      
-    )
-    .limit(5)
+      .select({
+        id: books.id,
+        title: books.title,
+        genre: books.genre,
+        coverUrl: books.coverUrl, // assuming coverUrl is a field in your schema
+        coverColor: books.coverColor, // assuming coverColor is a field in your schema
+      })
+      .from(books)
+      .where(
+        // Same genre but exclude the current book
+        and(eq(books.genre, currentBook[0].genre), ne(books.id, bookId))
+      )
+      .limit(5);
 
     return {
       success: true,
