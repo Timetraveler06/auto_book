@@ -1,4 +1,4 @@
-import React from "react";
+
 import { db } from "@/database/drizzle";
 import { books } from "@/database/schema";
 import { eq } from "drizzle-orm";
@@ -8,9 +8,8 @@ import BookOverview from "@/components/BookOverview";
 import BookVideo from "@/components/BookVideo";
 import SimilarBooks from "@/components/SimilarBooks";
 
-
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const id = (await params).id;
+const Page = async ({ params }: { params: { id: string } }) => {
+  const { id } = params; // Access the id from params
   const session = await auth();
 
   // Fetch data based on id
@@ -48,8 +47,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="flex flex-col gap-7">
           <h3 className="text-[#d6e0ff] text-2xl font-semibold">More similar books</h3>
           <SimilarBooks currentBookId={bookDetails.id} />
-
-        
         </div>
       </div>
     </>

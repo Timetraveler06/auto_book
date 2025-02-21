@@ -2,10 +2,12 @@
 
 import { getSimilarBooks } from "@/lib/actions/book";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import BookCover from "@/components/BookCover"; // Import the BookCover component
 
 const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
   const [similarBooks, setSimilarBooks] = useState<any[]>([]);
+  const router = useRouter(); // Initialize the router
 
   useEffect(() => {
     const fetchSimilarBooks = async () => {
@@ -22,18 +24,22 @@ const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
   
     fetchSimilarBooks();
   }, [currentBookId]);
-  
+
+  // Redirect function for when a book cover is clicked
+  const handleBookClick = (bookId: string) => {
+    router.push(`/books/${bookId}`); // Assuming the dynamic route for book description is /book/[id]
+  };
 
   return (
     <div>
       <div className="similar-books flex flex-wrap gap-8 justify-center">
         {similarBooks.length > 0 ? (
           similarBooks.map((book: any) => (
-            <div key={book.id} className="book-card">
+            <div key={book.id} className="book-card" onClick={() => handleBookClick(book.id)}>
               <BookCover 
                 coverColor={book.coverColor} 
                 coverImage={book.coverUrl}  
-                className=" sm:w-44 sm:h-56 "
+                className=" sm:w-44 sm:h-56 cursor-pointer"
               />
             </div>
           ))
@@ -43,7 +49,6 @@ const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
       </div>
     </div>
   );
-  
 };
 
 export default SimilarBooks;
