@@ -26,23 +26,24 @@ const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
 
   return (
     <div>
-      
-      <div className="similar-books flex flex-wrap gap-8"> {/* Flexbox for row layout */}
+      <div className="similar-books flex flex-wrap gap-8 justify-center">
         {similarBooks.length > 0 ? (
           similarBooks.map((book: any) => (
             <div key={book.id} className="book-card">
               <BookCover 
-                coverColor={book.coverColor} // Pass cover color
-                coverImage={book.coverUrl}  // Pass cover image URL
+                coverColor={book.coverColor} 
+                coverImage={book.coverUrl}  
+                className=" sm:w-44 sm:h-56 "
               />
             </div>
           ))
         ) : (
-          <p className="text-[#d6e0ff] font-bold text-2xl md:text-2xl ">No similar books found</p>
+          <p className="text-[#d6e0ff] font-bold text-2xl md:text-2xl">No similar books found</p>
         )}
       </div>
     </div>
   );
+  
 };
 
 export default SimilarBooks;
