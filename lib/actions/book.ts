@@ -2,7 +2,7 @@
 
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
-import { eq,and, ne } from "drizzle-orm";
+import { eq, and, ne, or , like  } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
@@ -96,3 +96,4 @@ export const getSimilarBooks = async (bookId: string) => {
     };
   }
 };
+
