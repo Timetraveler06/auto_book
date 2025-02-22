@@ -2,7 +2,7 @@
 
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
-import { eq, and, ne, or , like  } from "drizzle-orm";
+import { eq, and, ne, or , ilike  } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
@@ -93,6 +93,47 @@ export const getSimilarBooks = async (bookId: string) => {
     return {
       success: false,
       error: "An error occurred while fetching similar books",
+    };
+  }
+};
+
+export const searchBooks = async (query: string) => {
+  try {
+    if (!query) {
+      return {
+        success: false,
+        error: "Search query cannot be empty",
+      };
+    }
+
+    // Fetch books that match the query in title or author
+    const booksFound = await db
+      .select({
+        id: books.id,
+        title: books.title,
+        author: books.author, // assuming author exists in the schema
+        genre: books.genre,
+        coverUrl: books.coverUrl,
+        coverColor: books.coverColor,
+      })
+      .from(books)
+      .where(
+        or(
+          ilike(books.title, `%${query}%`),  // Case-insensitive search for title
+          ilike(books.author, `%${query}%`) // Case-insensitive search for author
+        )
+      )
+      .limit(10);
+
+    return {
+      success: true,
+      data: booksFound,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error: "An error occurred while searching for books",
     };
   }
 };
