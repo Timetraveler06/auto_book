@@ -1,9 +1,11 @@
+
 import Link from "next/link";
 import Image from "next/image";
-import { signOut } from "@/auth";
+
 import { Session } from "next-auth";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { getInitials } from "@/lib/utils";
+import { handleSignOut } from "@/lib/actions/auth";
 
 const Header = ({
   session,
@@ -25,7 +27,7 @@ const Header = ({
           <Link
             href="/"
             className={`text-lg font-medium transition-all ${
-              pathname === "/" ? "text-light-200" : "hover:text-gray-300"
+              pathname === "/" ? "text-light-200" : "text-gray-300"
             }`}
           >
             Home
@@ -35,7 +37,7 @@ const Header = ({
           <Link
             href="/search"
             className={`text-lg font-medium transition-all ${
-              pathname === "/search" ? "text-gray-300" : "text-gray-300"
+              pathname === "/search" ? "text-light-200" : "text-gray-300"
             }`}
           >
             Search
@@ -52,21 +54,11 @@ const Header = ({
 
 
         <li>
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <button type="submit" className="hover:text-red-500 transition-all">
-              <Image
-                src="/icons/logout.svg"
-                alt="Logout"
-                width={24}
-                height={24}
-              />
-            </button>
-          </form>
+        <form action={handleSignOut}>
+          <button type="submit" className="hover:text-red-500 transition-all">
+            <Image src="/icons/logout.svg" alt="Logout" width={24} height={24} />
+          </button>
+        </form>
         </li>
       </ul>
     </header>
