@@ -29,3 +29,8 @@ export const bookSchema = z.object({
     summary: z.string().trim().min(10),
 
 })
+
+
+export const searchSchema = z.object({
+    query: z.string().min(1, "Search query is required"),
+  });

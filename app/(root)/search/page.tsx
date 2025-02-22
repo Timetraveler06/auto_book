@@ -1,8 +1,15 @@
-import { Input } from '@/components/ui/input'
-import { Search } from 'lucide-react'
-import React from 'react'
+"use client";
+import { Search } from 'lucide-react';
+import React, { useState } from 'react'
 
 const page = () => {
+
+    const [query, setQuery] = useState("");
+  
+    const handleSearch = (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log("Searching for:", query);
+    };
   return (
     <>
       <div className="min-h-screen  text-white ">
@@ -13,14 +20,17 @@ const page = () => {
               In our Library
           </h1>
         </div>
-        <div className="search">
-        <Search className=" text-gray-400"  />
-          <Input
-            type="text"
-            placeholder="Search..."
-           
-          />
-      </div>
+        <form onSubmit={handleSearch} className="search w-full max-w-md relative"
+         >
+            <Search className="absolute left-4 text-light-100" size={20} />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search..."
+              className="search-input pl-10 bg-transparent focus:outline-none"
+            />
+        </form>
       </div>
     </>
   )
