@@ -11,7 +11,7 @@ const page = () => {
       console.log("Searching for:", query);
     };
   return (
-    <>
+    <section>
       <div className="min-h-screen  text-white ">
         <h1 className='text-sm flex  justify-center p-6'>DISCOVER YOUR NEXT GREAT READ:</h1>
         <div>
@@ -32,7 +32,7 @@ const page = () => {
             />
         </form>
       </div>
-    </>
+    </section>
   )
 }
 
