@@ -1,16 +1,16 @@
 "use client";
-import SearchForm from '@/components/SearchForm';
+import SearchList from '@/components/SearchList';
 import { Search } from 'lucide-react';
 import React, { useState } from 'react'
 
 const page = () => {
+  const [query, setQuery] = useState("");
 
-    const [query, setQuery] = useState("");
-  
-    const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log("Searching for:", query);
-    };
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Searching for:", query);
+  };
+
   return (
     <section>
       <div className=" text-white ">
@@ -34,13 +34,12 @@ const page = () => {
             className="search-input pl-10 bg-transparent focus:outline-none w-full py-2"
           />
         </form>
-
       </div>
       <div>
-        <SearchForm query={query} />
+        <SearchList query={query} />
       </div>
     </section>
-  )
+  );
 }
 
-export default page
+export default page;

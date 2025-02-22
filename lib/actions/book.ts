@@ -106,7 +106,7 @@ export const searchBooks = async (query: string) => {
       };
     }
 
-    // Fetch books that match the query in title or author
+    // Fetch all books that match the query in title or author
     const booksFound = await db
       .select({
         id: books.id,
@@ -122,19 +122,24 @@ export const searchBooks = async (query: string) => {
           ilike(books.title, `%${query}%`),  // Case-insensitive search for title
           ilike(books.author, `%${query}%`) // Case-insensitive search for author
         )
-      )
-      .limit(10);
+      );
+
+    if (booksFound.length === 0) {
+      return {
+        success: false,
+        error: "No books found matching the query",
+      };
+    }
 
     return {
       success: true,
       data: booksFound,
     };
   } catch (error) {
-    console.log(error);
+    console.error("Error searching books:", error); // Provide more context to the error
     return {
       success: false,
       error: "An error occurred while searching for books",
     };
   }
 };
-
