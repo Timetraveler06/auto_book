@@ -1,51 +1,37 @@
 "use client";
+import { useState } from "react";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { z, ZodType } from "zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
-
-// Define the props interface
-interface SearchFormProps {
-  schema: ZodType<{ query: string }>;
-  defaultValues: { query: string };
-  onSubmit: (data: { query: string }) => Promise<void>;
-}
-
-const SearchForm: React.FC<SearchFormProps> = ({ schema, defaultValues, onSubmit }) => {
-  const form = useForm<{ query: string }>({
-    resolver: zodResolver(schema),
-    defaultValues,
-  });
-
-  const handleSubmit: SubmitHandler<{ query: string }> = async (data) => {
-    await onSubmit(data);
-  };
+const SearchForm = ({ query }: { query: string }) => {
+  const [filter, setFilter] = useState("Department"); // Default filter
+  const [resultsCount, setResultsCount] = useState(0); // Dummy result count
+  
+  // Dummy data for search results and filter options (replace with real data logic)
+  const searchResults = ["Book 1", "Book 2", "Book 3", "Book 4"]; // This would be the actual data
+  const filteredResults = searchResults.filter((book) =>
+    filter === "Department" || book.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="query"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Search..."
-                  className="pl-10 text-white" // Space for search icon
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Search</Button>
-      </form>
-    </Form>
+    <div className="flex justify-between items-center mt-10 px-5">
+      {/* Search Results */}
+      <p className="text-lg font-semibold text-light-200">
+        {filteredResults.length} Results for "{query}"
+      </p>
+
+      {/* Filter by dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className="inline-flex items-center gap-2 bg-gray-700 text-white p-2 rounded-md">
+          Filter by: {filter} <ChevronDown size={16} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setFilter("Department")}>Department</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setFilter("Genre")}>Genre</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setFilter("Title")}>Title</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 };
 
