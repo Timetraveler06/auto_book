@@ -1,3 +1,5 @@
+import { Input } from '@/components/ui/input'
+import { Search } from 'lucide-react'
 import React from 'react'
 
 const page = () => {
@@ -11,9 +13,14 @@ const page = () => {
               In our Library
           </h1>
         </div>
-        <div className='search'>
-            
-        </div>
+        <div className="search">
+        <Search className=" text-gray-400"  />
+          <Input
+            type="text"
+            placeholder="Search..."
+           
+          />
+      </div>
       </div>
     </>
   )
