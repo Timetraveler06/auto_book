@@ -106,7 +106,7 @@ export const searchBooks = async (query: string) => {
       };
     }
 
-    // Fetch all books that match the query in title or author
+    // Fetch all books that match the query in title or author or genre
     const booksFound = await db
       .select({
         id: books.id,
@@ -120,7 +120,8 @@ export const searchBooks = async (query: string) => {
       .where(
         or(
           ilike(books.title, `%${query}%`),  // Case-insensitive search for title
-          ilike(books.author, `%${query}%`) // Case-insensitive search for author
+          ilike(books.author, `%${query}%`), // Case-insensitive search for author
+          ilike(books.genre, `%${query}%`)
         )
       );
 
