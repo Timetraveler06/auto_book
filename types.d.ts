@@ -9,12 +9,13 @@ interface Book {
   description: string;
   coverColor: string;
   coverUrl: string;
-  videoUrl:string;
+  videoUrl: string;
   summary: string;
   createdAt: Date | null;
-  //isLoanedBook: boolean;
-
+  pdfUrl: string; // MEGA shareable URL
+  decryptionKey: string; // The decryption key for the URL
 }
+
 
 interface AuthCredentials {
   fullName: string;
