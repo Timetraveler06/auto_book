@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import BookList from '@/components/BookList';
@@ -65,7 +64,7 @@ const SearchPage = () => {
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && books.length > 0 && (
           <BookList 
-            title={query ? `Search Results for "${query}"` : "Search Books"}
+            title={query ? `Search Results for "${query}"` : "All Books"}
             books={books}
             containerClassName="mt-28"
           />

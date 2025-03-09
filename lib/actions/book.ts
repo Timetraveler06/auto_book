@@ -162,3 +162,30 @@ export const searchBooks = async (query: string) => {
     };
   }
 };
+
+
+export const fetchAllBooks = async () => {
+  try {
+    const booksFound = await db
+      .select({
+        id: books.id,
+        title: books.title,
+        author: books.author,
+        genre: books.genre,
+        coverUrl: books.coverUrl,
+        coverColor: books.coverColor,
+      })
+      .from(books);
+
+    return {
+      success: true,
+      data: booksFound,
+    };
+  } catch (error) {
+    console.error("Error fetching all books:", error);
+    return {
+      success: false,
+      error: "An error occurred while fetching all books",
+    };
+  }
+};
