@@ -15,7 +15,7 @@ export const borrowBook = async (params: BorrowBookParams) => {
       .where(eq(books.id, bookId))
       .limit(1);
 
-    //Check if it exists 
+    // Check if the book exists and has available copies
     if (!book.length || book[0].availableCopies <= 0) {
       return {
         success: false,
@@ -23,9 +23,26 @@ export const borrowBook = async (params: BorrowBookParams) => {
       };
     }
 
+    // Check if the user has already borrowed the book
+    const existingRecord = await db
+    .select({ status: borrowRecords.status })
+    .from(borrowRecords)
+    .where(and(
+      eq(borrowRecords.userId, userId),  // Check if the userId matches
+      eq(borrowRecords.bookId, bookId)   // Check if the bookId matches
+    ))
+    .limit(1);
+
+    if (existingRecord.length > 0 && existingRecord[0].status === "BORROWED") {
+      return {
+        success: false,
+        error: "You have already borrowed this book",
+      };
+    }
+
+    // If not borrowed, insert a new borrowing record
     const dueDate = dayjs().add(7, "day").toDate().toDateString();
 
-    // iNSERT IT INTO NEW TABLE 
     const record = await db.insert(borrowRecords).values({
       userId,
       bookId,
@@ -33,6 +50,7 @@ export const borrowBook = async (params: BorrowBookParams) => {
       status: "BORROWED",
     });
 
+    // Update the available copies in the books table
     await db
       .update(books)
       .set({ availableCopies: book[0].availableCopies - 1 })
@@ -44,13 +62,13 @@ export const borrowBook = async (params: BorrowBookParams) => {
     };
   } catch (error) {
     console.log(error);
-
     return {
       success: false,
       error: "An error occurred while borrowing the book",
     };
   }
 };
+
 
 export const getSimilarBooks = async (bookId: string) => {
   try {
@@ -69,7 +87,7 @@ export const getSimilarBooks = async (bookId: string) => {
     }
 
     // Fetch similar books excluding the current book
-    const similarBooks = await db
+   const similarBooks = await db
       .select({
         id: books.id,
         title: books.title,

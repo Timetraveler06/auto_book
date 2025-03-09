@@ -1,9 +1,9 @@
 "use client";
 
-import { getSimilarBooks } from "@/lib/actions/book";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import BookCover from "@/components/BookCover"; // Import the BookCover component
+import { getSimilarBooks } from "@/lib/actions/book";
 
 const SimilarBooks = ({ currentBookId }: { currentBookId: string }) => {
   const [similarBooks, setSimilarBooks] = useState<any[]>([]);
