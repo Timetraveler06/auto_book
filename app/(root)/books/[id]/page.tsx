@@ -23,7 +23,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <BookOverview {...bookDetails} userId={session?.user?.id as string} />
+      <BookOverview pdfUrl={""} decryptionKey={""} {...bookDetails} userId={session?.user?.id as string} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* First Column: Video and Summary */}
