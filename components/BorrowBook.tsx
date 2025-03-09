@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { borrowBook } from "@/lib/actions/book";
-
 
 interface Props {
   userId: string;
@@ -24,18 +23,6 @@ const BorrowBook = ({
 }: Props) => {
   const router = useRouter();
   const [borrowing, setBorrowing] = useState(false);
-  const [isBorrowed, setIsBorrowed] = useState(false); // Track if the book is borrowed
-
-  useEffect(() => {
-    // Check if the user has already borrowed the book
-    const checkIfBorrowed = async () => {
-      const response = await fetch(`/api/check-borrowed?userId=${userId}&bookId=${bookId}`);
-      const result = await response.json();
-      setIsBorrowed(result.isBorrowed);
-    };
-
-    checkIfBorrowed();
-  }, [userId, bookId]);
 
   const handleBorrowBook = async () => {
     if (!isEligible) {
@@ -44,7 +31,6 @@ const BorrowBook = ({
         description: message,
         variant: "destructive",
       });
-      return; // Return early if not eligible
     }
 
     setBorrowing(true);
@@ -53,7 +39,6 @@ const BorrowBook = ({
       const result = await borrowBook({ bookId, userId });
 
       if (result.success) {
-        setIsBorrowed(true); // Mark as borrowed
         toast({
           title: "Success",
           description: "Book borrowed successfully",
@@ -82,18 +67,13 @@ const BorrowBook = ({
     <Button
       className="book-overview_btn"
       onClick={handleBorrowBook}
-      disabled={borrowing || isBorrowed} // Disable if borrowing or already borrowed
+      disabled={borrowing}
     >
       <Image src="/icons/book.svg" alt="book" width={20} height={20} />
       <p className="font-bebas-neue text-xl text-dark-100">
-        {borrowing
-          ? "Borrowing ..."
-          : isBorrowed
-          ? "Borrowed"
-          : "Borrow Book"}
+        {borrowing ? "Borrowing ..." : "Borrow Book"}
       </p>
     </Button>
   );
 };
-
 export default BorrowBook;
