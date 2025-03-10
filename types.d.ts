@@ -12,8 +12,7 @@ interface Book {
   videoUrl: string;
   summary: string;
   createdAt: Date | null;
-  pdfUrl: string; // MEGA shareable URL
-  decryptionKey: string; // The decryption key for the URL
+ 
 }
 
 

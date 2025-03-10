@@ -1,105 +1,93 @@
-"use client";
+"use client"; // Ensure it's a client-side component
 
-import React, { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
-import BookList from '@/components/BookList';
+import { useState, useEffect } from "react";
+import BookList from "@/components/BookList";
+import { countTotalBooks, fetchBooks } from "@/lib/actions/book";
 
 const SearchPage = () => {
-  const [query, setQuery] = useState("");
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // State for current page, total pages, and fetched books
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // Initialize totalPages
+  const [books, setBooks] = useState([]); // State to hold books
+  const [loading, setLoading] = useState(true); // State for loading status
 
-  // This useEffect will run once when the component is mounted (i.e., when the page loads)
-  useEffect(() => {
-    // Call the search API with the current query (empty query will show all books)
-    const fetchBooks = async () => {
-      setLoading(true);
-      setError("");
-
-      try {
-        const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
-        const data = await res.json();
-
-        if (data.success) {
-          setBooks(data.data);
-        } else {
-          setError(data.error || "No books found");
-          setBooks([]);
-        }
-      } catch (err) {
-        console.error("Search error:", err);
-        setError("An error occurred while searching.");
-        setBooks([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBooks(); // Fetch books when the page loads
-  }, []); // Empty dependency array to run only on initial mount
-
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
+  // Function to fetch books and update pagination details
+  const fetchData = async () => {
     try {
-      const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
-      const data = await res.json();
+      // Fetch books for the current page
+      const booksList = await fetchBooks(page, 12); // Fetch 12 books per page
 
-      if (data.success) {
-        setBooks(data.data);
-      } else {
-        setError(data.error || "No books found");
-        setBooks([]);
-      }
-    } catch (err) {
-      console.error("Search error:", err);
-      setError("An error occurred while searching.");
-      setBooks([]);
+      // Count the total number of books for pagination
+      const totalCount = await countTotalBooks();
+
+      // Calculate total pages
+      setTotalPages(Math.ceil(totalCount / 12)); // Update totalPages
+
+      // Update books state
+      setBooks(booksList);
+    } catch (error) {
+      console.error("Error fetching data for search page:", error);
+      setBooks([]); // Set to empty array on error
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading to false after data is fetched
     }
   };
 
-  return (
-    <section>
-      <div className="text-white">
-        <h1 className="text-sm flex justify-center p-6">DISCOVER YOUR NEXT GREAT READ:</h1>
-        <div>
-          <h1 className="text-4xl font-bold text-center">
-            Explore and Search for <br />
-            <span className="text-[#ffe1bd]">Any Book</span> In our Library
-          </h1>
-        </div>
-        <form
-          onSubmit={handleSearch}
-          className="search relative flex justify-center items-center w-full max-w-md mx-auto"
-        >
-          <Search className="absolute left-4 text-light-200" size={20} />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search..."
-            className="search-input pl-10 bg-transparent focus:outline-none w-full py-2"
-          />
-        </form>
-      </div>
+  // Fetch data when page changes
+  useEffect(() => {
+    setLoading(true); // Set loading to true before fetching data
+    fetchData();
+  }, [page]);
 
-      <div className="mt-10 px-5">
-        {loading && <p className="text-gray-300">Loading...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error && books.length > 0 && (
+  return (
+    <>
+      <section>
+        <div className="text-white">
+          <h1 className="text-sm flex justify-center p-6">
+            DISCOVER YOUR NEXT GREAT READ:
+          </h1>
+          <div>
+            <h1 className="text-4xl font-bold text-center">
+              Explore and Search for <br />
+              <span className="text-[#ffe1bd]">Any Book</span> In Our Library
+            </h1>
+          </div>
+
+        </div>
+
+        {/* Show loading indicator while fetching */}
+        {loading ? (
+          <div className="text-center text-white">Loading...</div>
+        ) : (
           <BookList
-            title={query ? `Search Results for "${query}"` : "All Books"}
-            books={books}
+            title="Search Results"
+            books={books} // Pass the fetched books to the BookList component
             containerClassName="mt-28"
           />
         )}
-      </div>
-    </section>
+
+        {/* Pagination logic */}
+        <div className="flex justify-center mt-6 space-x-4">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-4 py-2 bg-gray-700 text-white rounded-md disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-white">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-gray-700 text-white rounded-md"
+          >
+            Next
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

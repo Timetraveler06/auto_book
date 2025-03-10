@@ -2,7 +2,7 @@
 
 import { db } from "@/database/drizzle";
 import { books, borrowRecords } from "@/database/schema";
-import { eq, and, ne, or , ilike  } from "drizzle-orm";
+import { eq, and, ne, or , ilike, desc } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
@@ -164,28 +164,37 @@ export const searchBooks = async (query: string) => {
 };
 
 
-export const fetchAllBooks = async () => {
-  try {
-    const booksFound = await db
-      .select({
-        id: books.id,
-        title: books.title,
-        author: books.author,
-        genre: books.genre,
-        coverUrl: books.coverUrl,
-        coverColor: books.coverColor,
-      })
-      .from(books);
 
-    return {
-      success: true,
-      data: booksFound,
-    };
+
+// Fetch books with pagination
+export const fetchBooks = async (page: number, limit: number) => {
+  try {
+    const booksList = await db
+      .select()
+      .from(books)
+      .limit(limit)
+      .offset((page - 1) * limit) // Adjust the offset based on the page
+      .orderBy(desc(books.createdAt))
+      .execute(); // Execute the query to fetch books
+
+    return booksList;
   } catch (error) {
-    console.error("Error fetching all books:", error);
-    return {
-      success: false,
-      error: "An error occurred while fetching all books",
-    };
+    console.error("Error fetching books:", error);
+    throw new Error("Failed to fetch books.");
+  }
+};
+
+// Count total number of books by fetching all rows and counting them in JavaScript
+export const countTotalBooks = async () => {
+  try {
+    const booksList = await db
+      .select()
+      .from(books)
+      .execute(); // Fetch all books to count them in JavaScript
+
+    return booksList.length; // Return the number of books
+  } catch (error) {
+    console.error("Error counting total books:", error);
+    throw new Error("Failed to count books.");
   }
 };
